@@ -13,9 +13,8 @@ The goal is to **improve problem-solving skills**, **prepare for coding intervie
   - Example test cases
   - Multiple approaches (Brute Force → Optimized)
   - Time & Space complexity analysis
-  - Code implementation in Python/Java/JavaScript  
+  - Code implementation in C++ or Javascript 
 - ✅ Easy to revise & interview-ready notes.  
 
 ---
 
-## 📂 Repository Structure
