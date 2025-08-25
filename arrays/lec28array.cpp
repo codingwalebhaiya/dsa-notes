@@ -266,6 +266,124 @@ public:
 
 
 
-  
 
+
+# Problem: --------------- Find Pair Given Difference  ------------
+
+**Platform**: GFG  
+**Difficulty**: EASY  
+**Link**:https://www.geeksforgeeks.org/problems/find-pair-given-difference1559/1
+
+## Problem Statement
+Given an array, arr[] and an integer x, return true if there exists a pair of elements in the array whose absolute difference is x, otherwise, return false.
+
+Examples:
+Input: arr[] = [5, 20, 3, 2, 5, 80], x = 78
+Output: true
+Explanation: Pair (2, 80) have an absolute difference of 78.
+
+
+✅ Approach 1: Brute Force (O(n²))
+Compare every pair using two loops.
+Check if abs(arr[i] - arr[j]) == x.
+👉 Simple, but not efficient.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+bool findPairBrute(vector<int>& arr, int x) {
+    int n = arr.size();
+    for (int i = 0; i < n; i++) {
+        for (int j = i+1; j < n; j++) {
+            if (abs(arr[i] - arr[j]) == x) return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    vector<int> arr = {5, 20, 3, 2, 5, 80};
+    int x = 78;
+    cout << (findPairBrute(arr, x) ? "true" : "false");
+}
+
+
+
+✅ Approach 2: Sorting + Two Pointers (O(n log n))
+Sort the array.
+Use two pointers i and j.
+If arr[j] - arr[i] == x, return true.
+If difference < x → move j ahead.
+If difference > x → move i ahead.
+👉 More efficient than brute force.
+
+
+class Solution {
+  public:
+    bool findPair(vector<int> &arr, int x) {
+        
+         sort(arr.begin(), arr.end()); 
+         int n = arr.size();
+         int i=0, j=1;
+         
+         while(i<n && j<n){
+             
+             if(i !=j && arr[j] - arr[i] == x){
+                 return true;
+             }
+             else if(arr[j] - arr[i] < x){
+                 j++; // Increase difference
+             }
+             else {
+                 i++; // decrease difference 
+             }
+             
+              // Ensure i and j are never equal
+            if (i == j) j++;
+         }
+         return false; // no pair found
+         
+    }
+};
+
+
+int main() {
+    vector<int> arr = {5, 20, 3, 2, 5, 80};
+    int x = 78;
+    cout << (findPairTwoPointer(arr, x) ? "true" : "false");
+}
+
+
+
+✅ Approach 3: Hashing (O(n))
+Use a hash set to store numbers.
+For each number num, check:
+If num + x exists, return true.
+If num - x exists, return true.
+ 
+👉 Best approach for large arrays.
+
+ #include <bits/stdc++.h>
+using namespace std;
+
+bool findPairHashing(vector<int>& arr, int x) {
+    unordered_set<int> s;
+    for (int num : arr) {
+        if (s.count(num + x) || s.count(num - x)) return true;
+        s.insert(num);
+    }
+    return false;
+}
+
+int main() {
+    vector<int> arr = {5, 20, 3, 2, 5, 80};
+    int x = 78;
+    cout << (findPairHashing(arr, x) ? "true" : "false");
+}
+
+
+🔎 Summary of Approaches
+Brute Force: O(n²), easy but slow.
+Sorting + Two Pointers: O(n log n), efficient.
+Hashing (unordered_set): O(n), fastest.
 
