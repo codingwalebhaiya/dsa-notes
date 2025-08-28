@@ -5,6 +5,8 @@ Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
 Output: 6
 Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
 
+
+✅ Approach 1 
 // Solution : 
 class Solution {
 public:
@@ -48,3 +50,68 @@ public:
         return water;
     }
 };
+
+
+✅ Approach 2 - using (two-pointer)
+
+// idea -
+// Keep two pointers left and right at array ends and two running maxima leftMax and rightMax.
+// Whichever side has the smaller height determines how much water that side can trap (because water level is
+// limited by the smaller of the two sides). Move that pointer inward, update its max, and add trapped
+// water = max(0, leftMax - height[left]) or max(0, rightMax - height[right]). Repeat until the pointers meet.
+
+    class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        if (n == 0) return 0; // edge case
+
+        int left = 0;            // start of array
+        int right = n - 1;       // end of array
+        int leftMax = 0;         // max height seen so far from left side
+        int rightMax = 0;        // max height seen so far from right side
+        int water = 0;           // accumulated trapped water
+
+        // Process until the two pointers meet
+        while (left < right) {
+            // Always move the side with the smaller height:
+            // because the trapped water depends on the minimum boundary.
+            if (height[left] <= height[right]) {
+                // If current left bar is higher than any seen before from left,
+                // it becomes the new left boundary (no water added).
+                if (height[left] >= leftMax) {
+                    leftMax = height[left];
+                } else {
+                    // Otherwise, water can be trapped above this bar
+                    // equal to the difference between leftMax and current height.
+                    water += leftMax - height[left];
+                }
+                ++left; // move left pointer inward
+            } else {
+                // Symmetric logic for the right side
+                if (height[right] >= rightMax) {
+                    rightMax = height[right];
+                } else {
+                    water += rightMax - height[right];
+                }
+                --right; // move right pointer inward
+            }
+        }
+
+        return water;
+    }
+};
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
