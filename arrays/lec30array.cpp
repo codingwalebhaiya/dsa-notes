@@ -1,4 +1,4 @@
-// Q no 42 (leetcode ) -  Trapping Rain Water
+// Q no 01 (leetcode ) -  Trapping Rain Water
 // Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
 Example - 
 Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
@@ -99,6 +99,79 @@ public:
         }
 
         return water;
+    }
+};
+
+
+// Q no - 02     ---------Triplet Sum in Array  - gfg (medium) -----------
+// Given an array arr[] and an integer target, determine if there exists
+// a triplet in the array whose sum equals the given target.
+// Return true if such a triplet exists, otherwise, return false.
+
+// example -
+// Input: arr[] = [1, 4, 45, 6, 10, 8], target = 13
+// Output: true 
+// Explanation: The triplet {1, 4, 8} sums up to 13.
+
+
+✅ Approach 1 
+✅ This works in O(n³) brute-force time.
+👉 You can optimize using sorting + two-pointer technique to O(n²).
+
+class Solution {
+  public:
+    bool hasTripletSum(vector<int> &arr, int target) {
+        // Code Here
+        
+        int n = arr.size();
+        for(int i = 0; i < n - 2; i++) {
+            for(int j = i + 1; j < n - 1; j++) {
+                for(int k = j + 1; k < n; k++) {
+                    if(arr[i] + arr[j] + arr[k] == target) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+        
+    }
+};
+
+
+✅ Approach 2
+// sorting + two-pointer approach
+// ⏱ Complexity:
+// Sorting: O(n log n)
+// Outer loop: O(n)
+// Inner two-pointer: O(n)
+// 👉 Total = O(n²)
+
+class Solution {
+public:
+    bool hasTripletSum(vector<int> &arr, int target) {
+        int n = arr.size();
+        sort(arr.begin(), arr.end()); // sort the array first
+
+        // Fix one element and use two-pointer for the rest
+        for (int i = 0; i < n - 2; i++) {
+            int left = i + 1;
+            int right = n - 1;
+
+            while (left < right) {
+                int sum = arr[i] + arr[left] + arr[right];
+                
+                if (sum == target) {
+                    return true;  // triplet found
+                }
+                else if (sum < target) {
+                    left++;  // need bigger sum
+                } else {
+                    right--; // need smaller sum
+                }
+            }
+        }
+        return false; // no triplet found
     }
 };
 
