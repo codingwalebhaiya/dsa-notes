@@ -176,7 +176,102 @@ public:
 };
 
 
+
+
+//      Q no -03  -----------------  4Sum ---------------
+// Medium
+// leetcode
+// Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+// 0 <= a, b, c, d < n
+// a, b, c, and d are distinct.
+// nums[a] + nums[b] + nums[c] + nums[d] == target
+// You may return the answer in any order.
+
+
+✅ Approach 01
+✅ Brute-force O(n⁴) solution
     
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        set<vector<int>> st;  // to store unique quadruplets
+
+        // 4 nested loops → O(n⁴)
+        for (int i = 0; i < n - 3; i++) {
+            for (int j = i + 1; j < n - 2; j++) {
+                for (int k = j + 1; k < n - 1; k++) {
+                    for (int l = k + 1; l < n; l++) {
+                        long long sum = (long long)nums[i] + nums[j] + nums[k] + nums[l];
+
+                        if (sum == target) {
+                            vector<int> quad = {nums[i], nums[j], nums[k], nums[l]};
+                            sort(quad.begin(), quad.end()); // sort to handle uniqueness
+                            st.insert(quad);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Convert set → vector
+        vector<vector<int>> ans(st.begin(), st.end());
+        return ans;
+    }
+};
+
+
+
+✅ Approach 02
+✅ Correct Optimized Solution (Sorting + Two-Pointer) → O(n³)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> ans;
+        int n = nums.size();
+
+        sort(nums.begin(), nums.end()); // sort for two-pointer and duplicate handling
+
+        for (int i = 0; i < n - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // skip duplicates
+
+            for (int j = i + 1; j < n - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue; // skip duplicates
+
+                long long newTarget = (long long)target - nums[i] - nums[j];
+                int left = j + 1, right = n - 1;
+
+                while (left < right) {
+                    long long sum = nums[left] + nums[right];
+
+                    if (sum == newTarget) {
+                        ans.push_back({nums[i], nums[j], nums[left], nums[right]});
+
+                        // skip duplicates
+                        while (left < right && nums[left] == nums[left + 1]) left++;
+                        while (left < right && nums[right] == nums[right - 1]) right--;
+
+                        left++;
+                        right--;
+                    } 
+                    else if (sum < newTarget) {
+                        left++;
+                    } else {
+                        right--;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
 
 
 
