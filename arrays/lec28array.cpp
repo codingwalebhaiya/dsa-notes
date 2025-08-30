@@ -22,7 +22,7 @@ class Solution {
         
         int n= arr.size();
         int start=0, end=n-1;
-        
+        // solve using binary search
         while(start<end){
             if(arr[start] ==0){
                 start++; 
@@ -386,4 +386,5 @@ int main() {
 Brute Force: O(n²), easy but slow.
 Sorting + Two Pointers: O(n log n), efficient.
 Hashing (unordered_set): O(n), fastest.
+
 
