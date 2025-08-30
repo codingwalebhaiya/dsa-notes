@@ -74,3 +74,168 @@ In-memory caches are used to store frequently accessed data for faster retrieval
 5. In-Memory Databases:
 These databases store entire datasets or significant portions of them directly in RAM, enabling extremely fast data processing and analytics compared to disk-based databases.
   
+
+✅ Memory Layout
+Stored in row-major order (row by row).
+arr[i][j] address = base + (i * colCount + j) * sizeof(datatype)
+
+✅ Common Patterns
+Row-wise traversal
+for(int i=0;i<rows;i++){
+   for(int j=0;j<cols;j++)
+      cout<<arr[i][j]<<" ";
+}
+
+
+Column-wise traversal
+for(int j=0;j<cols;j++){
+   for(int i=0;i<rows;i++)
+      cout<<arr[i][j]<<" ";
+}
+
+
+Diagonal (square matrix)
+for(int i=0;i<n;i++)
+    cout << arr[i][i] << " ";   // main diagonal
+for(int i=0;i<n;i++)
+    cout << arr[i][n-i-1] << " "; // secondary diagonal
+
+✅ Passing to Functions
+void print(int arr[][3], int rows) {   // second dim needed
+    for(int i=0;i<rows;i++)
+        for(int j=0;j<3;j++)
+            cout<<arr[i][j]<<" ";
+}
+
+✅ Dynamic 2D Arrays
+Using pointers
+int** arr = new int*[rows];
+for(int i=0; i<rows; i++)
+    arr[i] = new int[cols];
+
+
+Using vector
+vector<vector<int>> arr(rows, vector<int>(cols, 0));
+
+✅ Common Interview Qs
+Matrix transpose
+Rotate matrix 90°
+Search in sorted 2D array
+Spiral print of matrix
+Sum of rows/cols/diagonals
+Max/min in 2D array
+
+
+✅ Quick Tips
+
+2D array = contiguous block in memory.
+Always fix second dimension when passing to a function.
+Prefer vector<vector<int>> in modern C++ for flexibility.
+
+
+  📌 1. Matrix Transpose
+Swap rows ↔ columns (for square matrix).
+
+void transpose(int arr[][3], int n) {
+    for(int i=0;i<n;i++) {
+        for(int j=i;j<n;j++) {
+            swap(arr[i][j], arr[j][i]);
+        }
+    }
+}
+
+📌 2. Rotate Matrix 90° (Clockwise)
+👉 Trick: Transpose → Reverse each row.
+
+void rotate90(int arr[][3], int n) {
+    // transpose
+    for(int i=0;i<n;i++) {
+        for(int j=i;j<n;j++) swap(arr[i][j], arr[j][i]);
+    }
+    // reverse each row
+    for(int i=0;i<n;i++) {
+        reverse(arr[i], arr[i]+n);
+    }
+}
+
+📌 3. Search in Sorted 2D Array
+(Matrix sorted row-wise & col-wise)
+
+bool searchMatrix(int arr[][4], int rows, int cols, int target) {
+    int i=0, j=cols-1; // start at top-right
+    while(i<rows && j>=0) {
+        if(arr[i][j]==target) return true;
+        else if(arr[i][j]>target) j--;
+        else i++;
+    }
+    return false;
+}
+
+📌 4. Spiral Print of Matrix
+👉 Traverse layer by layer.
+
+void spiralPrint(int arr[][4], int rows, int cols) {
+    int top=0, bottom=rows-1, left=0, right=cols-1;
+
+    while(top<=bottom && left<=right) {
+        for(int i=left;i<=right;i++) cout<<arr[top][i]<<" ";
+        top++;
+        for(int i=top;i<=bottom;i++) cout<<arr[i][right]<<" ";
+        right--;
+        if(top<=bottom) {
+            for(int i=right;i>=left;i--) cout<<arr[bottom][i]<<" ";
+            bottom--;
+        }
+        if(left<=right) {
+            for(int i=bottom;i>=top;i--) cout<<arr[i][left]<<" ";
+            left++;
+        }
+    }
+}
+
+📌 5. Sum of Rows / Columns / Diagonals
+void rowColSum(int arr[][3], int n) {
+    // Row sums
+    for(int i=0;i<n;i++) {
+        int sum=0;
+        for(int j=0;j<n;j++) sum+=arr[i][j];
+        cout<<"Row "<<i<<" sum = "<<sum<<endl;
+    }
+
+    // Col sums
+    for(int j=0;j<n;j++) {
+        int sum=0;
+        for(int i=0;i<n;i++) sum+=arr[i][j];
+        cout<<"Col "<<j<<" sum = "<<sum<<endl;
+    }
+
+    // Diagonals
+    int d1=0,d2=0;
+    for(int i=0;i<n;i++) {
+        d1+=arr[i][i];           // main diagonal
+        d2+=arr[i][n-i-1];       // secondary diagonal
+    }
+    cout<<"Main diag sum = "<<d1<<endl;
+    cout<<"Sec diag sum = "<<d2<<endl;
+}
+
+📌 6. Max / Min in 2D Array
+void findMaxMin(int arr[][3], int rows, int cols) {
+    int mx=INT_MIN, mn=INT_MAX;
+    for(int i=0;i<rows;i++) {
+        for(int j=0;j<cols;j++) {
+            mx=max(mx, arr[i][j]);
+            mn=min(mn, arr[i][j]);
+        }
+    }
+    cout<<"Max = "<<mx<<", Min = "<<mn<<endl;
+}
+
+
+✅ With these 6 patterns you can crack 90% of 2D array interview questions.
+Transpose + Rotate → manipulation
+Search → optimized traversal
+Spiral → traversal technique
+Sum → accumulation
+Max/Min → scanning
+  
