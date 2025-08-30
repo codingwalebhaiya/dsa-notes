@@ -238,4 +238,101 @@ Search → optimized traversal
 Spiral → traversal technique
 Sum → accumulation
 Max/Min → scanning
+
+
+
+
+// 📌 1. Print All Values Row-wise
+#include <iostream>
+using namespace std;
+
+int main() {
+    int arr[3][3]={{1,2,3},{4,5,6},{7,8,9}};
+    for(int i=0;i<3;i++) {
+        for(int j=0;j<3;j++) cout<<arr[i][j]<<" ";
+        cout<<endl;
+    }
+}
+
+
+// 📌 2. Search Element in 2D Array
+bool searchElement(int arr[][3], int rows, int cols, int target) {
+    for(int i=0;i<rows;i++) {
+        for(int j=0;j<cols;j++) {
+            if(arr[i][j]==target) return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    int arr[3][3]={{1,2,3},{4,5,6},{7,8,9}};
+    int target=5;
+    cout<<(searchElement(arr,3,3,target)?"Found":"Not Found");
+}
+
+// 📌 3. Add Two Matrices
+int main() {
+    int a[2][2]={{1,2},{3,4}};
+    int b[2][2]={{5,6},{7,8}};
+    int sum[2][2];
+
+    for(int i=0;i<2;i++) {
+        for(int j=0;j<2;j++) {
+            sum[i][j]=a[i][j]+b[i][j];
+            cout<<sum[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+// 📌 4. Print Row Index with Maximum Sum
+int main() {
+    int arr[3][3]={{1,2,3},{9,5,1},{4,4,4}};
+    int maxSum=INT_MIN, rowIndex=-1;
+
+    for(int i=0;i<3;i++) {
+        int sum=0;
+        for(int j=0;j<3;j++) sum+=arr[i][j];
+        if(sum>maxSum) {
+            maxSum=sum;
+            rowIndex=i;
+        }
+    }
+
+    cout<<"Row with max sum = "<<rowIndex
+        <<" (Sum = "<<maxSum<<")"<<endl;
+}
+
+// 📌 5. Print Sum of Diagonal Elements
+int main() {
+    int arr[3][3]={{1,2,3},{4,5,6},{7,8,9}};
+    int d1=0,d2=0,n=3;
+
+    for(int i=0;i<n;i++) {
+        d1+=arr[i][i];           // main diagonal
+        d2+=arr[i][n-i-1];       // secondary diagonal
+    }
+    cout<<"Main diagonal sum = "<<d1<<endl;
+    cout<<"Secondary diagonal sum = "<<d2<<endl;
+}
+
+// 📌 6. Reverse Each Row of Matrix
+#include <algorithm> // for reverse
+
+int main() {
+    int arr[3][3]={{1,2,3},{4,5,6},{7,8,9}};
+    int n=3;
+
+    for(int i=0;i<n;i++) {
+        reverse(arr[i], arr[i]+n);  // reverse each row
+    }
+
+    // print
+    for(int i=0;i<n;i++) {
+        for(int j=0;j<n;j++) cout<<arr[i][j]<<" ";
+        cout<<endl;
+    }
+}
+
   
